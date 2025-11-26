@@ -1,16 +1,28 @@
-// 模拟 API 请求（实际项目替换为真实接口）
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+import axios from 'axios'  // 需先安装：npm install axios
 
-export async function fetchBooks() {
-  // 模拟延迟
-  await new Promise(r => setTimeout(r, 300))
-  return [
-    { id: 1, title: '《前端架构设计》', author: '张三' },
-    { id: 2, title: '《Vue 3 实战》', author: '李四' }
-  ]
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const instance = axios.create({
+  baseURL: API_BASE,
+  timeout: 5000
+})
+
+// 添加请求拦截器（处理 token 等）
+instance.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
+
+// 书籍相关接口
+export const bookApi = {
+  fetchBooks: () => instance.get('/books'),
+  fetchBookDetail: (id) => instance.get(`/books/${id}`),
+  fetchCategoryBooks: (cat) => instance.get(`/categories/${cat}/books`)
 }
 
-export async function fetchUserProfile() {
-  await new Promise(r => setTimeout(r, 200))
-  return { username: 'book_lover', level: 5 }
+// 用户相关接口
+export const userApi = {
+  login: (data) => instance.post('/login', data),
+  getProfile: () => instance.get('/profile'),
+  updateProfile: (data) => instance.put('/profile', data)
 }
