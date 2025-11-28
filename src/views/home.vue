@@ -35,7 +35,9 @@
           <p class="text-gray-600 mt-2">每月免费领取精选新书，参与会员活动</p>
         </div>
       </div>
-      <button class="btn-primary">立即开通会员</button>
+      <button class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+        立即开通会员
+      </button>
     </section>
 
     <!-- =============== 为你推荐 =============== -->
@@ -217,6 +219,7 @@ const toggleFavorite = (book) => {
   @apply px-6 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition;
 }
 </style>
+
 
 
 
