@@ -83,97 +83,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import StarRating from '@/components/StarRating.vue'
-import { useUserStore } from '@/stores/index.js'
+import { useBookStore } from '@/stores/books'
 
 const router = useRouter()
-const userStore = useUserStore()
+const bookStore = useBookStore()
 
-const categories = ['全部', '小说', '科技', '历史', '商业', '心理学']
-const selectedCategory = ref('全部')
-
-const allBooks = ref([
-  {
-    id: 1,
-    title: '活着',
-    author: '余华',
-    cover: 'https://picsum.photos/id/24/300/450',
-    rating: 4.9,
-    reviews: 9876,
-    genre: '小说',
-    heat: 998,
-    reading: 3456
-  },
-  {
-    id: 2,
-    title: '三体',
-    author: '刘慈欣',
-    cover: 'https://picsum.photos/id/25/300/450',
-    rating: 4.8,
-    reviews: 8765,
-    genre: '科幻',
-    heat: 976,
-    reading: 3210
-  },
-  {
-    id: 3,
-    title: '人类简史',
-    author: '尤瓦尔·赫拉利',
-    cover: 'https://picsum.photos/id/26/300/450',
-    rating: 4.7,
-    reviews: 7654,
-    genre: '历史',
-    heat: 932,
-    reading: 2890
-  },
-  {
-    id: 4,
-    title: '原则',
-    author: '瑞·达利欧',
-    cover: 'https://picsum.photos/id/27/300/450',
-    rating: 4.7,
-    reviews: 7654,
-    genre: '商业',
-    heat: 921,
-    reading: 2567
-  },
-  {
-    id: 5,
-    title: '人类群星闪耀时',
-    author: '斯蒂芬·茨威格',
-    cover: 'https://picsum.photos/id/28/300/450',
-    rating: 4.6,
-    reviews: 6543,
-    genre: '历史',
-    heat: 910,
-    reading: 2134
-  }
-])
-
-const filteredBooks = computed(() =>
-  selectedCategory.value === '全部'
-    ? allBooks.value
-    : allBooks.value.filter(b => b.genre === selectedCategory.value)
-)
-
-function openBookDetail(book) {
-  router.push({ name: 'BookDetail', params: { id: book.id } })
-}
-
-function addToShelf(id) {
-  // 从allBooks中找到对应书籍
-  const book = allBooks.value.find(b => b.id === id)
-  if (book) {
-    userStore.toggleFavorite(book)
-    alert(`已${userStore.isFavorite(id) ? '添加' : '移除'}到书架`)
-  }
+// 完善添加书架功能
+function addToShelf(book) {
+  bookStore.toggleFavorite(book) // 调用store方法
+  alert(`《${book.title}》已添加到书架`)
 }
 </script>
-
-<style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-</style>
