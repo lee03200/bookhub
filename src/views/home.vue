@@ -1,8 +1,7 @@
 <!-- src/views/Home.vue -->
 <template>
-  <!-- 保持原模板内容不变 -->
-  <!-- ========= 1. 英雄区 ========= -->
-  <section class="gradient-bg rounded-2xl text-white p-8 mb-12">
+  <!-- =============== 1. 英雄区（顶部）=============== -->
+  <section id="hero" class="gradient-bg rounded-2xl text-white p-8 mb-12">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-4xl md:text-6xl font-bold mb-6">发现你的下一本好书</h2>
       <p class="text-xl mb-8 opacity-90">基于智能推荐和真实评价，为你精选最适合的阅读选择</p>
@@ -23,8 +22,8 @@
     </div>
   </section>
 
-  <!-- ========= 2. 会员特权 ========= -->
-  <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+  <!-- =============== 2. 会员特权 =============== -->
+  <section id="vip-benefits" class="mb-12 bg-white rounded-lg shadow-md p-6">
     <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">会员专享特权</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="text-center p-4 rounded-lg bg-indigo-50">
@@ -50,14 +49,17 @@
       </div>
     </div>
     <div class="text-center mt-6">
-      <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition" @click="showVipModal">
+      <button
+        class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition"
+        @click="showVipModal"
+      >
         立即开通会员
       </button>
     </div>
   </section>
 
-  <!-- ========= 3. 为你推荐 ========= -->
-  <section class="mb-12">
+  <!-- =============== 3. 为你推荐 =============== -->
+  <section id="recommend" class="mb-12">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-2xl font-bold text-gray-800">为你推荐</h3>
     </div>
@@ -78,7 +80,7 @@
     </div>
   </section>
 
-  <!-- ========= 4. 热门书籍 ========= -->
+  <!-- =============== 4. 热门书籍 =============== -->
   <section id="popular-books" class="mb-12">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-2xl font-bold text-gray-800">热门书籍</h3>
@@ -104,7 +106,7 @@
             {{ index + 1 }}
           </div>
           <div class="flex-shrink-0 w-16 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded overflow-hidden">
-            <img :src="book.cover" :alt="book.title" class="w-full h-full object-cover">
+            <img :src="book.cover" :alt="book.title" class="w-full h-full object-cover" />
           </div>
           <div class="flex-1 min-w-0">
             <h4 class="font-semibold text-gray-800 truncate">{{ book.title }}</h4>
@@ -127,9 +129,9 @@
     </div>
   </section>
 
-  <!-- ========= 5. 浏览分类 ========= -->
-  <section class="mb-12">
-    <h3 id="browse-categories" class="text-2xl font-bold text-gray-800 mb-6">浏览分类</h3>
+  <!-- =============== 5. 浏览分类 =============== -->
+  <section id="categories" class="mb-12">
+    <h3 class="text-2xl font-bold text-gray-800 mb-6">浏览分类</h3>
     <div class="flex flex-wrap gap-3">
       <button
         v-for="category in categories"
@@ -147,7 +149,7 @@
     </div>
   </section>
 
-  <!-- ========= 6. 分类结果 ========= -->
+  <!-- =============== 6. 分类结果 =============== -->
   <section class="mb-12">
     <h3 class="text-2xl font-bold text-gray-800 mb-6">
       {{ selectedCategory === '全部' ? '所有书籍' : selectedCategory + '类书籍' }}
@@ -169,7 +171,7 @@
     </div>
   </section>
 
-  <!-- ========= 7. 我的书架（登录后） ========= -->
+  <!-- =============== 7. 我的书架（登录后）=============== -->
   <section id="my-shelf" class="mb-12" v-if="isLoggedIn">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-2xl font-bold text-gray-800">我的书架</h3>
@@ -182,10 +184,7 @@
           <i class="fas fa-info-circle mr-1"></i>
           <span>普通用户可收藏 {{ myShelfBooks.length }}/10 本</span>
         </span>
-        <router-link
-          :to="{ name: 'Category', params: { cat: '全部' } }"
-          class="text-indigo-600 hover:text-indigo-800 font-semibold"
-        >
+        <router-link :to="{ name: 'Category', params: { cat: '全部' } }" class="text-indigo-600 hover:text-indigo-800 font-semibold">
           添加书籍 →
         </router-link>
       </div>
@@ -213,8 +212,8 @@
     </div>
   </section>
 
-  <!-- ========= 8. 阅读足迹 ========= -->
-  <section>
+  <!-- =============== 8. 阅读足迹（底部）=============== -->
+  <section id="reading-stats" class="mb-12">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-2xl font-bold text-gray-800">我的阅读足迹</h3>
       <button class="text-indigo-600 hover:text-indigo-800 font-semibold" @click="showAllReadingHistory">
@@ -248,7 +247,7 @@
             @click="openBookDetail(book)"
           >
             <div class="aspect-[3/4] bg-gradient-to-br from-gray-200 to-gray-300 rounded mb-2 overflow-hidden">
-              <img :src="book.cover" class="w-full h-full object-cover">
+              <img :src="book.cover" class="w-full h-full object-cover" />
             </div>
             <p class="text-xs text-gray-700 truncate">{{ book.title }}</p>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
@@ -261,7 +260,75 @@
   </section>
 </template>
 
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useBookStore } from '@/stores/books'
+import BookCard from '@/components/BookCard.vue'
+import StarRating from '@/components/StarRating.vue'
+
+const router = useRouter()
+const userStore = useUserStore()
+const bookStore = useBookStore()
+
+// 响应式状态
+const isLoggedIn = computed(() => userStore.isLoggedIn)
+const userInfo = computed(() => userStore.info)
+const readingStats = computed(() => bookStore.readingStats)
+const myShelfBooks = computed(() => bookStore.myShelfBooks)
+const currentlyReading = computed(() => bookStore.currentlyReading)
+
+// 分类
+const categories = ref(['全部', '小说', '科技', '历史', '传记', '心理学'])
+const selectedCategory = ref('全部')
+
+// 从 store 获取书籍数据
+const recommendedBooks = computed(() => bookStore.recommended)
+const popularBooks = computed(() => bookStore.popular)
+const filteredBooks = computed(() => {
+  if (selectedCategory.value === '全部') return bookStore.allBooks
+  return bookStore.allBooks.filter(book => book.genre?.includes(selectedCategory.value))
+})
+
+// 方法
+const filterByCategory = (cat) => (selectedCategory.value = cat)
+const openBookDetail = (book) => router.push(`/book/${book.id}`)
+const showVipModal = () => router.push('/vip')
+const showFullRanking = () => router.push('/ranking')
+const showAllReadingHistory = () => router.push('/history')
+const scrollToCategories = () => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })
+const scrollToRecommend = () => document.getElementById('recommend')?.scrollIntoView({ behavior: 'smooth' })
+
+// 加载数据
+onMounted(async () => {
+  if (bookStore.allBooks.length === 0) await bookStore.loadAllBooks()
+  if (bookStore.recommended.length === 0) await bookStore.loadRecommended()
+  if (bookStore.popular.length === 0) await bookStore.loadPopular()
+})
+</script>
+
 <style scoped>
+/* ========== 从你的 HTML 复制的自定义样式 ========== */
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.book-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 .star-rating {
   display: flex;
   gap: 4px;
@@ -275,93 +342,4 @@
 .star.filled {
   color: #fbbf24;
 }
-
-.book-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.gradient-bg {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.vip-badge {
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.plan-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.plan-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(118, 75, 162, 0.15);
-}
-
-.plan-card.highlight {
-  border-color: #764ba2;
-  position: relative;
-  transform: scale(1.02);
-}
-
-.plan-card.highlight::before {
-  content: "最受欢迎";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #764ba2;
-  color: white;
-  padding: 2px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
 </style>
-
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { useBookStore } from '@/stores/books'
-import NavBar from '@/components/NavBar.vue'
-import BookCard from '@/components/BookCard.vue'
-import StarRating from '@/components/StarRating.vue' // 补充星级评分组件引入
-
-const router = useRouter()
-const userStore = useUserStore()
-const bookStore = useBookStore()
-
-// 从store获取数据
-const isLoggedIn = ref(userStore.isLoggedIn)
-const userInfo = ref(userStore.info)
-const readingStats = ref(bookStore.readingStats)
-const myShelfBooks = ref(bookStore.myShelfBooks)
-const currentlyReading = ref(bookStore.currentlyReading)
-
-// 页面自有数据（非共享部分保留）
-const categories = ref(['全部', '小说', '科技', '历史', '传记', '心理学'])
-const selectedCategory = ref('全部')
-const recommendedBooks = ref([/* 保持原有数据 */])
-const popularBooks = ref([/* 保持原有数据 */])
-const filteredBooks = ref([/* 保持原有数据 */])
-
-// 方法保持不变，仅修改跳转逻辑
-function showVipModal() {
-  router.push('/vip')
-}
-</script>
-
