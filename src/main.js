@@ -4,7 +4,6 @@ import App from './App.vue'
 import router from './router/index.js'
 import '@/assets/styles/global.css' // 新增
 import './index.css'
-import '@tailwindcss/base'
 
 const app = createApp(App)
 const pinia = createPinia()
