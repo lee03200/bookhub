@@ -13,17 +13,15 @@
       </div>
     </div>
 
-    <!-- 书籍简介 -->
+    <!-- 简介 -->
     <div class="mb-8 p-4 bg-white rounded-lg border">
       <h3 class="font-bold mb-2">简介</h3>
       <p class="text-gray-700">{{ book.description }}</p>
     </div>
 
-    <!-- =============== 评论区 =============== -->
+    <!-- 评论区 -->
     <div class="comments-section mt-8">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">读者评论（{{ comments.length }}）</h3>
-      </div>
+      <h3 class="text-xl font-bold mb-4">读者评论（{{ comments.length }}）</h3>
 
       <!-- 评论列表 -->
       <div v-if="comments.length === 0" class="text-gray-500 py-4">
@@ -36,43 +34,37 @@
           class="comment-item p-4 bg-white rounded-lg border"
         >
           <div class="flex justify-between">
-            <strong class="text-gray-900">{{ comment.username }}</strong>
+            <strong>{{ comment.username }}</strong>
             <span class="text-gray-500 text-sm">{{ formatDate(comment.createdAt) }}</span>
           </div>
-          <p class="mt-2 text-gray-700">{{ comment.content }}</p>
-          <div class="flex items-center mt-2 text-sm">
+          <p class="mt-2">{{ comment.content }}</p>
+          <div class="flex items-center mt-2 text-sm text-gray-500">
             <button
               @click="likeComment(comment.id)"
-              class="mr-3 text-gray-500 hover:text-indigo-600 flex items-center"
+              class="mr-3 hover:text-indigo-600"
             >
-              👍 <span class="ml-1">{{ comment.likes }}</span>
+              👍 赞 ({{ comment.likes }})
             </button>
             <button
               @click="dislikeComment(comment.id)"
-              class="text-gray-500 hover:text-red-500 flex items-center"
+              class="hover:text-red-500"
             >
-              👎 <span class="ml-1">{{ comment.dislikes }}</span>
+              👎 踩 ({{ comment.dislikes }})
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 写评论按钮 + 弹出框 -->
+      <!-- 写评论按钮 + 输入框（所有用户可见） -->
       <div class="mt-4">
         <button
-          v-if="userStore.isLoggedIn"
           @click="showCommentInput = !showCommentInput"
           class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center"
         >
           <i class="fas fa-edit mr-1"></i>
           {{ showCommentInput ? '取消评论' : '写评论' }}
         </button>
-        <p v-else class="text-gray-500">
-          <router-link to="/profile" class="text-indigo-600 hover:underline">登录</router-link>
-          后可发表评论
-        </p>
 
-        <!-- 评论输入框（弹出） -->
         <Transition name="slide-fade">
           <div v-if="showCommentInput" class="mt-4 p-4 bg-gray-50 rounded-lg border">
             <textarea
@@ -105,11 +97,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
-// 路由参数
+// 路由
 const route = useRoute()
+const router = useRouter()
 const bookId = route.params.id
 
 // 状态
@@ -117,48 +110,54 @@ const showCommentInput = ref(false)
 const newComment = ref('')
 const comments = ref([])
 
-// 用户 Store
+// 用户状态
 const userStore = useUserStore()
 
-// 模拟书籍数据（实际应从 API 获取）
+// 模拟书籍数据
 const book = {
   id: bookId,
-  title: '深入理解 Vue 3',
+  title: 'Vue 3 实战指南',
   author: '前端小明',
-  rating: 4.8,
+  rating: 4.7,
   genre: '编程 / 前端',
-  description: '本书系统讲解 Vue 3 的响应式原理、组合式 API、性能优化等核心知识，适合中高级开发者。'
+  description: '从入门到进阶，全面掌握 Vue 3 的核心概念与工程化实践。'
 }
 
-// 模拟评论数据（实际应从 /api/comments?bookId=xxx 获取）
+// 模拟评论
 const fetchComments = () => {
   comments.value = [
     {
       id: 1,
       username: '张三',
-      content: '这本书太棒了！情节紧凑，人物立体，读完收获很大。',
-      likes: 12,
-      dislikes: 2,
-      createdAt: '2024-05-12T10:00:00Z'
-    },
-    {
-      id: 2,
-      username: '李四',
-      content: '例子很实用，但第5章讲得有点快，建议配合视频学习。',
-      likes: 5,
+      content: '例子非常实用，适合项目开发参考！',
+      likes: 8,
       dislikes: 1,
-      createdAt: '2024-06-01T14:30:00Z'
+      createdAt: '2024-05-20T09:00:00Z'
     }
   ]
 }
 
-// 提交评论
+// 提交评论（关键逻辑）
 const submitComment = () => {
-  if (!userStore.isLoggedIn) return
+  if (!newComment.value.trim()) return
 
+  // ✅ 提交时才检查登录
+  if (!userStore.isLoggedIn) {
+    const confirmed = window.confirm('请先登录才能发表评论，是否前往登录？')
+    if (confirmed) {
+      // 跳转登录页，并带上当前 URL 作为 redirect
+      router.push({
+        path: '/login',
+        query: { redirect: route.fullPath }
+      })
+    }
+    return
+  }
+
+  // 已登录：提交评论
   const comment = {
     id: Date.now(),
-    username: userStore.user?.name || '匿名用户',
+    username: userStore.user?.name || '用户',
     content: newComment.value.trim(),
     likes: 0,
     dislikes: 0,
@@ -167,24 +166,21 @@ const submitComment = () => {
 
   comments.value.unshift(comment)
   newComment.value = ''
-  showCommentInput.value = false // 自动收起
+  showCommentInput.value = false
 }
 
-// 点赞 / 踩
+// 点赞功能
 const likeComment = (id) => {
-  const comment = comments.value.find(c => c.id === id)
-  if (comment) comment.likes++
+  const c = comments.value.find(c => c.id === id)
+  if (c) c.likes++
 }
-
 const dislikeComment = (id) => {
-  const comment = comments.value.find(c => c.id === id)
-  if (comment) comment.dislikes++
+  const c = comments.value.find(c => c.id === id)
+  if (c) c.dislikes++
 }
 
-// 格式化日期
-const formatDate = (isoString) => {
-  return new Date(isoString).toLocaleDateString('zh-CN')
-}
+// 工具函数
+const formatDate = (iso) => new Date(iso).toLocaleDateString('zh-CN')
 
 // 初始化
 onMounted(() => {
