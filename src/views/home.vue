@@ -189,7 +189,11 @@ const myShelfIds = computed(() => myShelfBooks.value.map(b => b.id))
 const readingStats = computed(() => bookStore.readingStats)
 
 // 推荐 & 热门（确保有默认值）
-const recommendedBooks = computed(() => bookStore.recommended || recommendedBooksData)
+const recommendedBooks = computed(() => {
+  return bookStore.recommended?.length > 0 
+    ? bookStore.recommended 
+    : recommendedBooksData
+})
 const popularBooks = computed(() => bookStore.popular || [])
 
 // 分类浏览
@@ -210,6 +214,7 @@ const toggleFavorite = (book) => {
   bookStore.toggleFavorite(book)
 }
 </script>
+
 
 
 
