@@ -2,9 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useBookStore = defineStore('books', {
   state: () => ({
-    allBooks: [],       // 所有书籍
-    recommended: [],    // 为你推荐
-    popular: [],        // 热门书籍
+    // 所有书籍（带 genre, heat）
     allBooks: [
       {
         id: 31,
@@ -37,6 +35,8 @@ export const useBookStore = defineStore('books', {
         cover: 'https://ts2.tc.mm.bing.net/th/id/OIP-C.P-X1Ubk9KAx2eNUPWL2TAwHaFj?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3'
       }
     ],
+
+    // 为你推荐
     recommended: [
       {
         id: 31,
@@ -48,6 +48,8 @@ export const useBookStore = defineStore('books', {
         cover: 'https://dh.woshipm.com/wp-content/uploads/2022/01/1900338879_ii_cover.jpeg'
       }
     ],
+
+    // 热门书籍（注意：需要 reading 字段）
     popular: [
       {
         id: 33,
@@ -73,7 +75,7 @@ export const useBookStore = defineStore('books', {
       }
     ],
 
-    // 原有字段保留
+    // 我的书架
     myShelfBooks: [
       {
         id: 31,
@@ -92,6 +94,8 @@ export const useBookStore = defineStore('books', {
         cover: 'https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/0/cf65/cf658bc055dbdf070b4b6be038bba380_0_0_0_0_water.jpg'
       }
     ],
+
+    // 正在阅读
     currentlyReading: [
       {
         id: 31,
@@ -115,6 +119,8 @@ export const useBookStore = defineStore('books', {
         isPremium: false
       }
     ],
+
+    // 阅读统计
     readingStats: {
       total: 24,
       thisMonth: 3,
@@ -133,18 +139,6 @@ export const useBookStore = defineStore('books', {
     updateReadingProgress(bookId, progress) {
       const book = this.currentlyReading.find(b => b.id === bookId)
       if (book) book.progress = progress
-    },
-
-    // 可选：未来可扩展加载方法
-    async loadAllBooks() {
-      // 模拟 API 调用
-      return this.allBooks
-    },
-    async loadRecommended() {
-      return this.recommended
-    },
-    async loadPopular() {
-      return this.popular
     }
   }
 })
