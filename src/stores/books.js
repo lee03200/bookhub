@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 
 export const useBookStore = defineStore('books', {
   state: () => ({
-    // ✅ 新增：推荐、热门、全部书籍（必须初始化为 []！）
+    allBooks: [],       // 所有书籍
+    recommended: [],    // 为你推荐
+    popular: [],        // 热门书籍
     allBooks: [
       {
         id: 31,
