@@ -1,5 +1,6 @@
 <!-- src/views/Home.vue -->
 <template>
+  <!-- 保持原模板内容不变 -->
   <!-- ========= 1. 英雄区 ========= -->
   <section class="gradient-bg rounded-2xl text-white p-8 mb-12">
     <div class="max-w-4xl mx-auto text-center">
@@ -72,7 +73,7 @@
         :key="b.id"
         :book="b"
         :user-info="userInfo"
-        @click="openBookDetail"
+        @click="() => openBookDetail(b)"
       />
     </div>
   </section>
@@ -163,7 +164,7 @@
         :key="b.id"
         :book="b"
         :user-info="userInfo"
-        @click="openBookDetail"
+        @click="() => openBookDetail(b)"
       />
     </div>
   </section>
@@ -207,7 +208,7 @@
         :key="b.id"
         :book="b"
         :user-info="userInfo"
-        @click="openBookDetail"
+        @click="() => openBookDetail(b)"
       />
     </div>
   </section>
@@ -266,12 +267,19 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import BookCard from '@/components/BookCard.vue'
+// 新增StarRating组件引入
+import StarRating from '@/components/StarRating.vue'
+// 引入Pinia状态管理
+import { useUserStore } from '@/stores/index.js'
 
 /* -------------------- 数据 -------------------- */
 const router = useRouter()
+const userStore = useUserStore()
 
-const isLoggedIn = ref(false)
-const userInfo = ref({ isVip: false })
+// 从Pinia获取登录状态和用户信息
+const isLoggedIn = ref(userStore.isLoggedIn)
+const userInfo = ref(userStore.userInfo)
+const myShelfBooks = ref(userStore.myShelfBooks)
 
 const categories = ref(['全部', '小说', '科技', '历史', '传记', '心理学'])
 const selectedCategory = ref('全部')
@@ -282,35 +290,35 @@ const recommendedBooks = ref([
     title: 'JavaScript高级程序设计',
     author: '尼古拉斯·泽卡斯',
     rating: 4.8,
-    reviews: 1243,
-    cover: 'https://ts1.tc.mm.bing.net/th/id/R-C.65e79b2f99aa01c8d00f99dce25ab47f?rik=dreHnFmLVRxApA&riu=http%3a%2f%2fimg35.ddimg.cn%2f76%2f19%2f20884225-1_u_2.jpg&ehk=%2fwPrcuk4GjMV4ke%2fS3hlIGJiNa5Bx5zVY95eW13zfdg%3d&risl=&pid=ImgRaw&r=0',
+    reviews: 1234,
+    cover: 'https://picsum.photos/id/1/300/450',
     isPremium: false
   },
   {
     id: 2,
-    title: '人类简史',
-    author: '尤瓦尔·赫拉利',
-    rating: 4.6,
-    reviews: 2356,
-    cover: 'https://img.alicdn.com/i2/2543812659/O1CN01AgGsjU1VVrswdhd42_!!2543812659.jpg',
+    title: '百年孤独',
+    author: '加西亚·马尔克斯',
+    rating: 4.9,
+    reviews: 5678,
+    cover: 'https://picsum.photos/id/2/300/450',
     isPremium: true
   },
   {
     id: 3,
     title: '三体',
     author: '刘慈欣',
-    rating: 4.9,
-    reviews: 5678,
-    cover: 'https://p1.ssl.qhimg.com/t0147ec1b07078c0cf8.jpg',
+    rating: 4.7,
+    reviews: 4321,
+    cover: 'https://picsum.photos/id/3/300/450',
     isPremium: false
   },
   {
     id: 4,
     title: '活着',
     author: '余华',
-    rating: 4.7,
+    rating: 4.8,
     reviews: 3456,
-    cover: 'https://ts2.tc.mm.bing.net/th/id/OIP-C.8Mb1Jm08nNYWyVcoddsZqwHaJ3?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3',
+    cover: 'https://picsum.photos/id/4/300/450',
     isPremium: false
   }
 ])
@@ -318,20 +326,20 @@ const recommendedBooks = ref([
 const popularBooks = ref([
   {
     id: 11,
-    title: '解忧杂货店',
-    author: '东野圭吾',
+    title: '人类简史',
+    author: '尤瓦尔·赫拉利',
     rating: 4.8,
-    genre: '小说',
+    genre: '历史',
     heat: 98,
     reviews: 8765,
     reading: 1234,
-    cover: 'https://ts1.tc.mm.bing.net/th/id/OIP-C.v-_BhEb7l5KWQyHuqOmmngHaHV?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3',
+    cover: 'https://picsum.photos/id/11/300/450',
     isPremium: false
   },
   {
     id: 12,
-    title: '百年孤独',
-    author: '加西亚·马尔克斯',
+    title: '月亮与六便士',
+    author: '毛姆',
     rating: 4.7,
     genre: '小说',
     heat: 95,
@@ -396,55 +404,6 @@ const filteredBooks = ref([
     category: '科技',
     cover: 'https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/0/cf65/cf658bc055dbdf070b4b6be038bba380_0_0_0_0_water.jpg',
     isPremium: true
-  },
-  {
-    id: 24,
-    title: '明朝那些事儿',
-    author: '当年明月',
-    rating: 4.6,
-    reviews: 4321,
-    category: '历史',
-    cover: 'https://p1.ssl.qhimg.com/t0125a05a1f6442097e.jpg',
-    isPremium: true
-  },
-  {
-    id: 25,
-    title: '史蒂夫·乔布斯传',
-    author: '沃尔特·艾萨克森',
-    rating: 4.7,
-    reviews: 3210,
-    category: '传记',
-    cover: 'https://ts4.tc.mm.bing.net/th/id/OIP-C.AxWQ45apjH9rhFcwVTj8egHaKO?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3',
-    isPremium: false
-  },
-  {
-    id: 26,
-    title: '社会心理学',
-    author: '戴维·迈尔斯',
-    rating: 4.9,
-    reviews: 4567,
-    category: '心理学',
-    cover: 'https://ts1.tc.mm.bing.net/th/id/OIP-C.SsmjxYsB0y_k5OjKpznCKQHaJ_?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3',
-    isPremium: true
-  }
-])
-
-const myShelfBooks = ref([
-  {
-    id: 31,
-    title: '思考，快与慢',
-    author: '丹尼尔·卡尼曼',
-    rating: 4.7,
-    reviews: 5678,
-    cover: 'https://dh.woshipm.com/wp-content/uploads/2022/01/1900338879_ii_cover.jpeg'
-  },
-  {
-    id: 32,
-    title: 'Python编程：从入门到实践',
-    author: '埃里克·马瑟斯',
-    rating: 4.8,
-    reviews: 4567,
-    cover: 'https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/0/cf65/cf658bc055dbdf070b4b6be038bba380_0_0_0_0_water.jpg'
   }
 ])
 
