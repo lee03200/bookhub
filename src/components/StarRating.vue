@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { defineProps, emit } from 'vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
   rating: {
@@ -26,7 +26,7 @@ const props = defineProps({
   }
 });
 
-const emit = emit();
+const emit = defineEmits(['update:rating']);
 
 const handleClick = (star) => {
   if (!props.readonly) {
