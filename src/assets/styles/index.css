@@ -1,5 +1,4 @@
-@import "tailwindcss";
-
+/* assets/styles/reset.css */
 *,
 *::before,
 *::after {
@@ -53,35 +52,4 @@ img, svg, video, canvas {
   display: block;
   max-width: 100%;
   height: auto;
-}
-
-:root {
-  /* 主色 */
-  --primary: #4f46e5;        /* indigo-600 */
-  --primary-hover: #4338ca;
-
-  /* 文字颜色 */
-  --text-primary: #0f172a;   /* slate-900 */
-  --text-secondary: #475569; /* slate-600 */
-  --text-muted: #94a3b8;     /* slate-400 */
-
-  /* 背景 */
-  --bg-page: #f9fafb;        /* slate-50 */
-  --bg-card: #ffffff;
-  --bg-placeholder: #f1f5f9; /* slate-200 */
-
-  /* 圆角 & 阴影 */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
-
-  /* 间距 */
-  --gap-xs: 4px;
-  --gap-sm: 8px;
-  --gap-md: 16px;
-  --gap-lg: 24px;
-
-  /* 断点 */
-  --breakpoint-md: 768px;
-  --breakpoint-sm: 480px;
 }

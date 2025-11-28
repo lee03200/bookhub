@@ -190,110 +190,52 @@
   </main>
 </template>
 
+
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useBookStore } from '@/stores/books'
 import NavBar from '@/components/NavBar.vue'
 import BookCard from '@/components/BookCard.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
+const bookStore = useBookStore()
 
-const isLoggedIn = ref(false)
-const userInfo = ref({ isVip: false, vipExpireDate: '2023-12-31' })
-
-const userProfile = ref({
-  username: 'BookLover',
-  avatar: 'https://picsum.photos/id/64/200/200',
-  memberSince: '2023-01-15',
-  bio: '',
-  gender: '',
-  interests: []
-})
+// 从store获取数据
+const isLoggedIn = ref(userStore.isLoggedIn)
+const userInfo = ref(userStore.info)
+const userProfile = ref(userStore.profile)
 const tempProfile = ref({ ...userProfile.value })
-
-const readingStats = ref({
-  total: 24,
-  avgRating: 4.5
-})
-
-const myShelfBooks = ref([
-  {
-    id: 31,
-    title: '思考，快与慢',
-    author: '丹尼尔·卡尼曼',
-    rating: 4.7,
-    reviews: 5678,
-    cover: 'https://dh.woshipm.com/wp-content/uploads/2022/01/1900338879_ii_cover.jpeg'
-  },
-  {
-    id: 32,
-    title: 'Python编程：从入门到实践',
-    author: '埃里克·马瑟斯',
-    rating: 4.8,
-    reviews: 4567,
-    cover: 'https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/0/cf65/cf658bc055dbdf070b4b6be038bba380_0_0_0_0_water.jpg'
-  }
-])
-
-const currentlyReading = ref([
-  {
-    id: 31,
-    title: '思考，快与慢',
-    progress: 35,
-    cover: 'https://dh.woshipm.com/wp-content/uploads/2022/01/1900338879_ii_cover.jpeg',
-    isPremium: false
-  },
-  {
-    id: 32,
-    title: 'Python编程：从入门到实践',
-    progress: 67,
-    cover: 'https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/0/cf65/cf658bc055dbdf070b4b6be038bba380_0_0_0_0_water.jpg',
-    isPremium: true
-  },
-  {
-    id: 33,
-    title: '红楼梦',
-    progress: 12,
-    cover: 'https://ts2.tc.mm.bing.net/th/id/OIP-C.P-X1Ubk9KAx2eNUPWL2TAwHaFj?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3',
-    isPremium: false
-  }
-])
-
+const readingStats = ref(bookStore.readingStats)
+const myShelfBooks = ref(bookStore.myShelfBooks)
+const currentlyReading = ref(bookStore.currentlyReading)
 const editing = ref(false)
 
-function toggleEdit() {
-  editing.value = !editing.value
-  if (editing.value) tempProfile.value = { ...userProfile.value }
-}
+// 完善方法
 function saveProfile() {
   if (!tempProfile.value.username.trim()) return alert('请输入用户名')
   if (tempProfile.value.bio.length > 150) return alert('个人简介不能超过150个字符')
+  userStore.updateProfile(tempProfile.value) // 调用store方法更新
   userProfile.value = { ...tempProfile.value }
   editing.value = false
   alert('资料保存成功！')
 }
+
 function openBookDetail(book) {
   router.push({ name: 'BookDetail', params: { id: book.id } })
 }
+
 function openVip() {
-  window.dispatchEvent(new Event('open-vip'))
+  router.push('/vip') // 替换事件总线为路由跳转
 }
+
 function openLogin() {
-  window.dispatchEvent(new Event('open-login'))
+  router.push('/login') // 替换事件总线为路由跳转
 }
+
 function showAllReadingHistory() {
-  alert('完整记录开发中')
+  router.push('/history') // 跳转到完整记录页
 }
 </script>
-
-<style scoped>
-.profile-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf5 100%);
-}
-.vip-badge {
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-</style>
