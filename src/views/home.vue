@@ -3,14 +3,18 @@
   <div class="home-page max-w-7xl mx-auto px-4 py-6">
 
     <!-- =============== 英雄区 =============== -->
-    <section class="hero text-center py-12 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl mb-12">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">发现你的下一本好书</h1>
-      <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+    <section class="hero text-center py-12 bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 rounded-xl mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">发现你的下一本好书</h1>
+      <p class="text-white/90 mb-6 max-w-2xl mx-auto">
         基于智能推荐和真实评价，为你精选最适合的阅读选择
       </p>
-      <div class="space-x-4">
-        <button class="btn-primary">开始探索</button>
-        <button class="btn-outline">查看推荐</button>
+      <div class="flex justify-center space-x-4">
+        <button class="px-6 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition">
+          开始探索
+        </button>
+        <button class="px-6 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition">
+          查看推荐
+        </button>
       </div>
     </section>
 
@@ -211,3 +215,4 @@ const toggleFavorite = (book) => {
   @apply px-6 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition;
 }
 </style>
+
