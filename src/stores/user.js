@@ -3,34 +3,24 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: false,
-    info: {
-      id: null,
-      name: '',
-      email: '',
-      isVip: false,
-      avatar: ''
-    }
+    // 默认未登录
+    isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+    user: JSON.parse(localStorage.getItem('user')) || null
   }),
 
   actions: {
     login(userData) {
       this.isLoggedIn = true
-      this.info = { ...userData }
+      this.user = userData
+      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('user', JSON.stringify(userData))
     },
 
     logout() {
       this.isLoggedIn = false
-      this.info = {
-        id: null,
-        name: '',
-        email: '',
-        isVip: false,
-        avatar: ''
-      }
+      this.user = null
+      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('user')
     }
-  },
-
-  // 可选：持久化（需安装 pinia-plugin-persistedstate）
-  // persist: true
+  }
 })
