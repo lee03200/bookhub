@@ -266,6 +266,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import BookCard from '@/components/BookCard.vue'
+import StarRating from '@/components/StarRating.vue'
 
 /* -------------------- 数据 -------------------- */
 const router = useRouter()
