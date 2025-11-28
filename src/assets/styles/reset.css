@@ -1,55 +1,40 @@
-/* assets/styles/reset.css */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* 引入变量和重置样式 */
+@import './reset.css';
+@import './variables.css';
+@import './fonts.css';
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-}
-
+/* 全局通用样式 */
 body {
-  line-height: 1;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.5;
 }
 
-ol, ul {
-  list-style: none;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--gap-md);
 }
 
-blockquote, q {
-  quotes: none;
+/* 按钮基础样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none;
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
 }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-img, svg, video, canvas {
-  display: block;
-  max-width: 100%;
-  height: auto;
+.btn-primary:hover {
+  background-color: var(--primary-hover);
 }
