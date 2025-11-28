@@ -1,22 +1,22 @@
 <template>
-  <div class="star-rating">
-    <span 
-      v-for="i in 5" 
-      :key="i"
-      class="star"
-      :class="{ 'filled': i <= modelValue, 'readonly': readonly }"
-      @click="!readonly && (onUpdateModelValue(i))"
+  <div class="flex items-center">
+    <div 
+      v-for="star in 5" 
+      :key="star"
+      class="text-gray-300 hover:text-yellow-400 cursor-pointer transition"
+      :class="{ 'text-yellow-400': star <= rating }"
+      @click="handleClick(star)"
     >
       <i class="fas fa-star"></i>
-    </span>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, emit } from 'vue';
 
 const props = defineProps({
-  modelValue: {
+  rating: {
     type: Number,
     default: 0
   },
@@ -24,28 +24,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = emit();
+
+const handleClick = (star) => {
+  if (!props.readonly) {
+    emit('update:rating', star);
+  }
+};
 </script>
-
-<style scoped>
-.star-rating {
-  display: inline-flex;
-  gap: 2px;
-}
-
-.star {
-  color: #ddd;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.star.filled {
-  color: #ffd700;
-}
-
-.star.readonly {
-  cursor: default;
-}
-</style>
