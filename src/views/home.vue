@@ -261,6 +261,76 @@
   </section>
 </template>
 
+<style scoped>
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: #fbbf24;
+}
+
+.book-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vip-badge {
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.plan-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(118, 75, 162, 0.15);
+}
+
+.plan-card.highlight {
+  border-color: #764ba2;
+  position: relative;
+  transform: scale(1.02);
+}
+
+.plan-card.highlight::before {
+  content: "最受欢迎";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #764ba2;
+  color: white;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+</style>
+
 
 <script setup>
 import { ref } from 'vue'
@@ -294,3 +364,4 @@ function showVipModal() {
   router.push('/vip')
 }
 </script>
+
