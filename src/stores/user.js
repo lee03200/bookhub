@@ -1,26 +1,26 @@
-// src/stores/user.js
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    // 默认未登录
-    isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
-    user: JSON.parse(localStorage.getItem('user')) || null
+    token: localStorage.getItem('token') || '',
+    user: null // 可以是 { id, name, email } 等
   }),
 
-  actions: {
-    login(userData) {
-      this.isLoggedIn = true
-      this.user = userData
-      localStorage.setItem('isLoggedIn', 'true')
-      localStorage.setItem('user', JSON.stringify(userData))
-    },
+  getters: {
+    // ✅ 显式定义 isLoggedIn
+    isLoggedIn: (state) => !!state.token
+  },
 
+  actions: {
+    login(userData, token) {
+      this.token = token
+      this.user = userData
+      localStorage.setItem('token', token)
+    },
     logout() {
-      this.isLoggedIn = false
+      this.token = ''
       this.user = null
-      localStorage.removeItem('isLoggedIn')
-      localStorage.removeItem('user')
+      localStorage.removeItem('token')
     }
   }
 })
