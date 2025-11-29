@@ -2,6 +2,7 @@
 @import './reset.css';
 @import './variables.css';
 @import './fonts.css';
+@import "tailwindcss";
 
 /* 全局通用样式 */
 body {
