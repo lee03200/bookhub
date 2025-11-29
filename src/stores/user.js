@@ -1,28 +1,26 @@
+// src/stores/user.js
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: false,
-    info: {
-      isVip: false,
-      vipExpireDate: '2023-12-31'
-    },
-    profile: {
-      username: '默认用户',
-      avatar: 'https://picsum.photos/id/64/200',
-      bio: '',
-      memberSince: '2023-01-01'
-    }
+    // 默认未登录
+    isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+    user: JSON.parse(localStorage.getItem('user')) || null
   }),
+
   actions: {
-    login() {
+    login(userData) {
       this.isLoggedIn = true
+      this.user = userData
+      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('user', JSON.stringify(userData))
     },
+
     logout() {
       this.isLoggedIn = false
-    },
-    updateProfile(data) {
-      this.profile = { ...this.profile, ...data }
+      this.user = null
+      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('user')
     }
   }
 })
