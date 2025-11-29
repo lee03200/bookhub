@@ -1,15 +1,20 @@
-// vite.config.js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+// 新增：引入path模块（Node.js内置，无需额外安装）
 import path from 'node:path'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
   base: '/bookhub/',
+  plugins: [
+    vue(),
+    tailwindcss(),
+  ],
+  // 新增：配置@别名映射到src目录
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src') 
+      '@': path.resolve(__dirname, 'src')
     }
   },
   server: {
