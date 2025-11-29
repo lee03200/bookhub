@@ -9,7 +9,6 @@ export default defineConfig({
   base: '/bookhub/',
   plugins: [
     vue(),
-    tailwindcss(),
   ],
   // 新增：配置@别名映射到src目录
   resolve: {
